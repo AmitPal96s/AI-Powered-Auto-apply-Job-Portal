@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import toast from "react-hot-toast";
 function Jobs() {
   const [tab, setTab] = useState("recommended");
   const [appliedJobs, setAppliedJobs] = useState([]);
@@ -9,9 +9,9 @@ function Jobs() {
     localStorage.getItem("skills")?.split(",").map((s) => s.trim()) || [];
 
   const applyJob = (job) => {
-    setAppliedJobs([...appliedJobs, job.title]);
-    alert("Applied to " + job.title);
-  };
+  setAppliedJobs([...appliedJobs, job.title]);
+  toast.success(`Applied to ${job.title}`);
+};
 
   const jobs = [
     { title: "Frontend Developer", location: "Remote", skills: "React, HTML, CSS" },
