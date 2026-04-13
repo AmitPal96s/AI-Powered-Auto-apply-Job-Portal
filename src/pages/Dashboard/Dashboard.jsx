@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import AIInsightsCard from "../../components/ui/ai/AIInsightsCard";
 
 function Dashboard() {
   const [stats, setStats] = useState({
@@ -8,6 +9,10 @@ function Dashboard() {
     interviews: 0,
     autoApply: false,
   });
+  const userSkills =
+    localStorage.getItem("skills")
+      ?.split(",")
+      .map((skill) => skill.trim()) || ["React", "Node.js", "MongoDB"];
 
   const [recentJobs, setRecentJobs] = useState([]);
 
@@ -36,6 +41,7 @@ function Dashboard() {
         <p className="text-gray-600 mt-2">
           Track your job applications and manage your AI job hunt.
         </p>
+        <AIInsightsCard skills={userSkills} />
       </div>
 
       {/* Statistics Cards */}
