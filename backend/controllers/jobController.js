@@ -1,9 +1,10 @@
 const Job = require("../models/job");
+const { ensureJobsLoaded } = require("../services/jobAggregator");
 
 // Get all jobs
 const getJobs = async (req, res, next) => {
   try {
-    const jobs = await Job.find().sort({ createdAt: -1 });
+    const jobs = await ensureJobsLoaded();
     res.status(200).json(jobs);
   } catch (error) {
     next(error);

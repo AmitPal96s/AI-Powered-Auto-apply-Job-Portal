@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Job = require("../models/job");
 const { getSkillSuggestions } = require("../services/skillSuggestionService");
+const { ensureJobsLoaded } = require("../services/jobAggregator");
 
 // Normalize skills
 const normalizeSkills = (skills = []) =>
@@ -49,7 +50,7 @@ exports.getRecommendedJobs = async (req, res, next) => {
     const combinedSkills = mergeSkills(userSkills, suggestedSkills);
 
     // Fetch jobs
-    const jobs = await Job.find();
+    const jobs = await ensureJobsLoaded();
 
     // 🔥 Build enriched jobs
     const recommendedJobs = jobs.map((job) => {

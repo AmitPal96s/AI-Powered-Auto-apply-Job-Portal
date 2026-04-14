@@ -57,4 +57,14 @@ const fetchJobsFromAPI = async () => {
   }
 };
 
-module.exports = { fetchJobsFromAPI };
+const ensureJobsLoaded = async () => {
+  const existingJobsCount = await Job.countDocuments();
+
+  if (existingJobsCount === 0) {
+    await fetchJobsFromAPI();
+  }
+
+  return Job.find().sort({ createdAt: -1 });
+};
+
+module.exports = { fetchJobsFromAPI, ensureJobsLoaded };
