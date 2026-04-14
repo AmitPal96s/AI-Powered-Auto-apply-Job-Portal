@@ -6,12 +6,20 @@ let cachedPromise = null;
 
 const connectDB = async () => {
   try {
+    const mongoUri = process.env.MONGO_URI?.trim();
+
+    if (!mongoUri) {
+      throw new Error(
+        "MONGO_URI is not set. Add it to your Vercel environment variables."
+      );
+    }
+
     if (cachedConnection || mongoose.connection.readyState === 1) {
       return cachedConnection || mongoose.connection;
     }
 
     if (!cachedPromise) {
-      cachedPromise = mongoose.connect(process.env.MONGO_URI);
+      cachedPromise = mongoose.connect(mongoUri);
     }
 
     cachedConnection = await cachedPromise;
