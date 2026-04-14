@@ -2,7 +2,7 @@
   "name": "job-portal-root",
   "private": true,
   "scripts": {
-    "postinstall": "npm --prefix ai-job-portal ci",
+    "postinstall": "npm --prefix ai-job-portal ci && npm --prefix backend ci",
     "build": "npm --prefix ai-job-portal run build",
     "dev": "npm --prefix ai-job-portal run dev",
     "preview": "npm --prefix ai-job-portal run preview",
