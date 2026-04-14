@@ -1,0 +1,11 @@
+{
+  "name": "job-portal-root",
+  "private": true,
+  "scripts": {
+    "postinstall": "npm --prefix ai-job-portal ci",
+    "build": "npm --prefix ai-job-portal run build",
+    "dev": "npm --prefix ai-job-portal run dev",
+    "preview": "npm --prefix ai-job-portal run preview",
+    "lint": "npm --prefix ai-job-portal run lint"
+  }
+}
