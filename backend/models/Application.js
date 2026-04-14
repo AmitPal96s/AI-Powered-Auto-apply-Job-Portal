@@ -24,6 +24,11 @@ const applicationSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    status: {
+      type: String,
+      enum: ["Applied", "Interview", "Rejected", "Offer", "Shortlisted", "Withdrawn"],
+      default: "Applied",
+    },
     submissionType: {
       type: String,
       enum: [

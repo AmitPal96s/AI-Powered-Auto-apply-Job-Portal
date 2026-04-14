@@ -11,6 +11,14 @@ import { useAuth } from "../../context/AuthContext";
 
 function Dashboard() {
   const { user } = useAuth();
+  const avatarUrl = user?.profile?.avatarUrl || "";
+  const displayName = user?.name || "There";
+  const initials = displayName
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
   const [stats, setStats] = useState({
     applied: 0,
     matches: 0,
@@ -67,14 +75,39 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-pink-50 p-6">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-pink-500 bg-clip-text text-transparent">
-          Welcome Back
-        </h1>
-        <p className="text-gray-600 mt-2">
-          Track your job applications and manage your AI job hunt.
-        </p>
-        <AIInsightsCard skills={userSkills} profile={userProfile} />
+      <div className="mb-8 rounded-3xl bg-white p-6 shadow-lg">
+        <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-pink-500 bg-clip-text text-transparent">
+              Welcome Back, {displayName}
+            </h1>
+            <p className="text-gray-600 mt-2">
+              Track your job applications and manage your AI job hunt.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3">
+            <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-blue-100 to-pink-100 text-xl font-bold text-blue-700">
+              {avatarUrl ? (
+                <img
+                  src={avatarUrl}
+                  alt={`${displayName} avatar`}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                initials || "U"
+              )}
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-500">Profile</p>
+              <p className="text-base font-semibold text-gray-900">{user?.email}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <AIInsightsCard skills={userSkills} profile={userProfile} />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">

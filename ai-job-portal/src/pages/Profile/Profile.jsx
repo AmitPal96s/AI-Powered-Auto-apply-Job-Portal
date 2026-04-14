@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 import {
@@ -9,6 +9,7 @@ import {
 const initialProfileState = {
   name: "",
   email: "",
+  avatarUrl: "",
   headline: "",
   bio: "",
   phone: "",
@@ -33,6 +34,7 @@ function Profile() {
   const [profile, setProfile] = useState(initialProfileState);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const avatarInputRef = useRef(null);
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -42,6 +44,7 @@ function Profile() {
         setProfile({
           name: data.name || "",
           email: data.email || "",
+          avatarUrl: data.profile?.avatarUrl || "",
           headline: data.profile?.headline || "",
           bio: data.profile?.bio || "",
           phone: data.profile?.phone || "",
@@ -78,6 +81,43 @@ function Profile() {
     }));
   };
 
+  const handleAvatarUpload = (e) => {
+    const file = e.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file.");
+      e.target.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setProfile((prev) => ({
+        ...prev,
+        avatarUrl: reader.result?.toString() || "",
+      }));
+    };
+    reader.onerror = () => {
+      toast.error("Could not read the selected image.");
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleRemoveAvatar = () => {
+    setProfile((prev) => ({
+      ...prev,
+      avatarUrl: "",
+    }));
+
+    if (avatarInputRef.current) {
+      avatarInputRef.current.value = "";
+    }
+  };
+
   const handleSave = async () => {
     try {
       setSaving(true);
@@ -97,6 +137,7 @@ function Profile() {
           autoApplyEnabled: profile.autoApplyEnabled,
         },
         profile: {
+          avatarUrl: profile.avatarUrl,
           headline: profile.headline,
           bio: profile.bio,
           phone: profile.phone,
@@ -150,6 +191,65 @@ function Profile() {
             <p className="text-gray-600">
               Complete this profile so the auto-apply system can match and apply to relevant jobs.
             </p>
+          </div>
+
+          <div className="mb-8 rounded-3xl border border-gray-200 bg-gray-50 p-6">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center">
+              <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-gradient-to-br from-blue-100 to-pink-100 shadow-lg">
+                {profile.avatarUrl ? (
+                  <img
+                    src={profile.avatarUrl}
+                    alt="Profile preview"
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <span className="text-4xl font-bold text-blue-700">
+                    {profile.name
+                      ? profile.name
+                          .split(" ")
+                          .filter(Boolean)
+                          .slice(0, 2)
+                          .map((part) => part[0]?.toUpperCase())
+                          .join("")
+                      : "U"}
+                  </span>
+                )}
+              </div>
+
+              <div className="flex-1">
+                <h2 className="text-xl font-semibold text-gray-900">
+                  Profile Picture
+                </h2>
+                <p className="mt-1 text-sm text-gray-600">
+                  Add a photo so your profile feels more personal and easier to recognize.
+                </p>
+
+                <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <label className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:opacity-90">
+                    Upload Photo
+                    <input
+                      ref={avatarInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleAvatarUpload}
+                      className="hidden"
+                    />
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={handleRemoveAvatar}
+                    className="inline-flex items-center justify-center rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-white"
+                  >
+                    Remove Photo
+                  </button>
+                </div>
+
+                <p className="mt-3 text-xs text-gray-500">
+                  Supports JPG, PNG, GIF, and other common image formats.
+                </p>
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">

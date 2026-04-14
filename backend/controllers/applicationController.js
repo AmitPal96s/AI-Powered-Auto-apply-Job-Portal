@@ -56,6 +56,7 @@ const createApplicationRecord = async ({
     jobLink: job.link,
     matchScore,
     autoApplied,
+    status: "Applied",
   });
 
   const submissionResult = await executeExternalSubmission({
@@ -147,11 +148,32 @@ exports.getUserApplications = async (req, res, next) => {
 exports.updateApplicationStatus = async (req, res, next) => {
   try {
     const { status } = req.body;
+    const allowedStatuses = [
+      "Applied",
+      "Interview",
+      "Rejected",
+      "Offer",
+      "Shortlisted",
+      "Withdrawn",
+    ];
+
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({
+        message: "Invalid application status",
+        allowedStatuses,
+      });
+    }
 
     const application = await Application.findById(req.params.id);
 
     if (!application) {
       return res.status(404).json({ message: "Application not found" });
+    }
+
+    if (application.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({
+        message: "You can only update your own applications",
+      });
     }
 
     application.status = status;

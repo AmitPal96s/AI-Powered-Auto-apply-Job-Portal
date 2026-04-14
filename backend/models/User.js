@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema(
       autoApplyEnabled: { type: Boolean, default: false },
     },
     profile: {
+      avatarUrl: { type: String, default: "" },
       headline: { type: String, default: "" },
       bio: { type: String, default: "" },
       phone: { type: String, default: "" },
