@@ -1,17 +1,17 @@
 const Job = require("../models/job");
 
 // Get all jobs
-const getJobs = async (req, res) => {
+const getJobs = async (req, res, next) => {
   try {
     const jobs = await Job.find().sort({ createdAt: -1 });
     res.status(200).json(jobs);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
 // Add a job manually (User-added)
-const addJob = async (req, res) => {
+const addJob = async (req, res, next) => {
   try {
     const job = await Job.create({
       ...req.body,
@@ -19,7 +19,7 @@ const addJob = async (req, res) => {
     });
     res.status(201).json(job);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 

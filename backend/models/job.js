@@ -2,32 +2,28 @@ const mongoose = require("mongoose");
 
 const jobSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    company: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    location: {
-      type: String,
-      default: "Remote",
-    },
-    description: {
-      type: String,
-    },
-    link: {
-      type: String,
-      required: true,
-      unique: true, // Prevent duplicate jobs
-    },
+    title: { type: String, required: true },
+    company: { type: String, required: true },
+    location: { type: String, default: "Remote" },
+    description: String,
+    link: { type: String, required: true, unique: true },
     source: {
       type: String,
       enum: ["API", "Company", "User", "Scraped"],
       default: "API",
+    },
+    platform: {
+      type: String,
+      default: "Unknown",
+    },
+    applyStrategy: {
+      type: String,
+      enum: ["manual_redirect", "api_supported", "browser_required"],
+      default: "manual_redirect",
+    },
+    externalApplySupported: {
+      type: Boolean,
+      default: false,
     },
     requiredSkills: {
       type: [String],
@@ -35,23 +31,9 @@ const jobSchema = new mongoose.Schema(
     },
     salary: {
       type: String,
+      default: "Not specified",
     },
-    postedDate: {
-      type: Date,
-    },
-   employmentType: {
-      type: String,
-      enum: ["Full-time", "Part-time", "Contract", "Internship", "Remote"],
-    },
-    experienceLevel: {
-      type: String,
-      enum: ["Entry", "Mid", "Senior", "Lead"],
-    },
-    tags: {
-      type: [String],
-      default: [],
-    },
-  
+    postedDate: Date,
   },
   { timestamps: true }
 );

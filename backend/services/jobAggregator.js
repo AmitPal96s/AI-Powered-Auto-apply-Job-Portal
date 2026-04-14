@@ -1,49 +1,57 @@
 const axios = require("axios");
 const Job = require("../models/job");
+const { detectApplyStrategy } = require("./applicationExecutors");
 
-// Simple skill extraction from job description
-const extractSkills = (description) => {
+const extractSkills = (description = "") => {
   const skills = [
-    "React",
-    "Node.js",
-    "MongoDB",
-    "Express",
-    "TypeScript",
-    "Python",
-    "AWS",
-    "Docker",
+    "javascript",
+    "react",
+    "node",
+    "mongodb",
+    "python",
+    "java",
   ];
-
   return skills.filter((skill) =>
-    description?.toLowerCase().includes(skill.toLowerCase())
+    description.toLowerCase().includes(skill)
   );
 };
 
-// Fetch jobs from Remotive API
 const fetchJobsFromAPI = async () => {
   try {
     const response = await axios.get(
-      process.env.REMOTIVE_API_URL || "https://remotive.com/api/remote-jobs"
+      process.env.REMOTIVE_API_URL ||
+        "https://remotive.com/api/remote-jobs"
     );
 
-    const jobs = response.data.jobs.map((job) => ({
-      title: job.title,
-      company: job.company_name,
-      location: job.candidate_required_location,
-      description: job.description,
-      link: job.url,
-      source: "API",
-      requiredSkills: extractSkills(job.description),
-      salary: job.salary || "Not specified",
-      postedDate: new Date(job.publication_date),
-    }));
+    const jobs = response.data.jobs.map((job) => {
+      const applyMetadata = detectApplyStrategy(job.url);
 
-    // Insert or update jobs to avoid duplicates
+      return {
+        title: job.title,
+        company: job.company_name,
+        location: job.candidate_required_location,
+        description: job.description,
+        link: job.url,
+        source: "API",
+        platform: applyMetadata.platform,
+        applyStrategy: applyMetadata.applyStrategy,
+        externalApplySupported:
+          applyMetadata.externalApplySupported,
+        requiredSkills: extractSkills(job.description),
+        salary: job.salary || "Not specified",
+        postedDate: new Date(job.publication_date),
+      };
+    });
+
     for (const job of jobs) {
-      await Job.updateOne({ link: job.link }, job, { upsert: true });
+      await Job.findOneAndUpdate(
+        { link: job.link },
+        job,
+        { upsert: true, new: true }
+      );
     }
 
-    console.log(`✅ ${jobs.length} jobs fetched and stored`);
+    console.log("Jobs fetched and stored successfully");
   } catch (error) {
     console.error("Error fetching jobs:", error.message);
   }

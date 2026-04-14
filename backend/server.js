@@ -1,49 +1,39 @@
-// server.js
 const express = require("express");
-const cors = require("cors");
 const dotenv = require("dotenv");
+const cors = require("cors");
+
 const connectDB = require("./config/db");
+
 const authRoutes = require("./routes/authRoutes");
 const jobRoutes = require("./routes/jobRoutes");
-const { fetchJobsFromAPI } = require("./services/jobAggregator");
-const cron = require("node-cron");
 const recommendationRoutes = require("./routes/recommendationRoutes");
 const applicationRoutes = require("./routes/applicationRoutes");
+const aiRoutes = require("./routes/aiRoutes");
 
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
-
-// Load environment variables
 dotenv.config();
-
-// Connect to MongoDB
 connectDB();
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
+
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/jobs", recommendationRoutes);
 app.use("/api/applications", applicationRoutes);
+app.use("/api/ai", aiRoutes);
 
-// Health Check Route
-app.get("/", (req, res) => {
-  res.send("JobGenie API is running...");
-});
+// Error Middleware
+app.use(notFound);
+app.use(errorHandler);
 
-
-// Schedule job fetching every hour
-cron.schedule("0 * * * *", async () => {
-  console.log("🔄 Fetching new job listings...");
-  await fetchJobsFromAPI();
-});
-
-// Define Port
+// Start server
 const PORT = process.env.PORT || 5000;
 
-// Start Server
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });

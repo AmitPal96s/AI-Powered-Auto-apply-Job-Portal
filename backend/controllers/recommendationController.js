@@ -1,50 +1,86 @@
-const Job = require("../models/job");
 const User = require("../models/User");
-const { mergeSkills, calculateMatchScore } = require("../services/matchService");
+const Job = require("../models/job");
 const { getSkillSuggestions } = require("../services/skillSuggestionService");
 
-// @desc    Get recommended jobs for a user
-// @route   GET /api/jobs/recommended
-// @access  Private
-exports.getRecommendedJobs = async (req, res) => {
+// Normalize skills
+const normalizeSkills = (skills = []) =>
+  [...new Set(skills.map(s => s.toLowerCase().trim()).filter(Boolean))];
+
+// Merge user + suggested skills
+const mergeSkills = (userSkills = [], suggestedSkills = []) => {
+  return normalizeSkills([...userSkills, ...suggestedSkills]);
+};
+
+// 🔥 Match calculation (IMPORTANT)
+const calculateMatch = (userSkills, jobSkills = []) => {
+  const userSet = new Set(userSkills);
+
+  const matchedSkills = jobSkills.filter(skill =>
+    userSet.has(skill.toLowerCase())
+  );
+
+  const missingSkills = jobSkills.filter(
+    skill => !userSet.has(skill.toLowerCase())
+  );
+
+  const matchScore = jobSkills.length
+    ? Math.round((matchedSkills.length / jobSkills.length) * 100)
+    : 0;
+
+  return {
+    matchScore,
+    matchedSkills,
+    missingSkills,
+  };
+};
+
+// ✅ MAIN CONTROLLER
+exports.getRecommendedJobs = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
 
-    // Get suggested skills based on market demand
-    const suggestedSkills = await getSkillSuggestions(user.skills);
+    const userSkills = normalizeSkills(user.skills || []);
 
-    // Merge user and suggested skills
-    const combinedSkills = mergeSkills(
-      user.skills,
-      suggestedSkills
+    // AI suggested skills
+    const suggestedSkills = normalizeSkills(
+      await getSkillSuggestions(userSkills)
     );
 
-    // Fetch all jobs
+    const combinedSkills = mergeSkills(userSkills, suggestedSkills);
+
+    // Fetch jobs
     const jobs = await Job.find();
 
-    // Calculate match score for each job
-    const recommendedJobs = jobs
-      .map((job) => {
-        const matchScore = calculateMatchScore(
-          combinedSkills,
-          job.requiredSkills
-        );
+    // 🔥 Build enriched jobs
+    const recommendedJobs = jobs.map((job) => {
+      const jobSkills = normalizeSkills(job.requiredSkills || []);
 
-        return {
-          ...job.toObject(),
-          matchScore,
-        };
-      })
-      .filter(
-        (job) => job.matchScore >= user.preferences.minMatchScore
-      )
-      .sort((a, b) => b.matchScore - a.matchScore);
+      const { matchScore, matchedSkills, missingSkills } =
+        calculateMatch(combinedSkills, jobSkills);
+
+      const explanation = `You match ${matchedSkills.length}/${jobSkills.length} skills. Improve ${missingSkills.slice(0, 2).join(", ") || "your profile"} to increase chances.`;
+
+      return {
+        ...job.toObject(),
+        matchScore,
+        matchedSkills,
+        missingSkills,
+        explanation,
+      };
+    })
+    .sort((a, b) => b.matchScore - a.matchScore);
 
     res.status(200).json({
       combinedSkills,
+      suggestedSkills,
       recommendedJobs,
+      matchSummary: {
+        minMatchScore: user.preferences?.minMatchScore || 70,
+        totalRecommended: recommendedJobs.length,
+      },
     });
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
