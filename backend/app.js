@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const path = require("path");
 
 const connectDB = require("./config/db");
 
@@ -12,7 +13,7 @@ const aiRoutes = require("./routes/aiRoutes");
 
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, ".env") });
 const dbConnectionPromise = connectDB();
 dbConnectionPromise.catch((error) => {
   console.error(`Initial MongoDB connection failed: ${error.message}`);

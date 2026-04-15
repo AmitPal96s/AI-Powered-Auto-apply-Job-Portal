@@ -285,7 +285,11 @@ const buildChatReply = async ({ messages = [], context }) => {
         return geminiReply;
       }
     } catch (error) {
-      console.warn("Gemini chat request failed, trying fallback reply.");
+      console.warn(
+        "Gemini chat request failed, trying fallback reply.",
+        error.response?.status,
+        error.response?.data?.error?.message || error.message
+      );
     }
   }
 
@@ -347,7 +351,11 @@ exports.getSuggestions = async (req, res, next) => {
           }
         }
       } catch (error) {
-        console.warn("Gemini insights request failed, trying fallback provider.");
+        console.warn(
+          "Gemini insights request failed, trying fallback provider.",
+          error.response?.status,
+          error.response?.data?.error?.message || error.message
+        );
       }
     }
 
