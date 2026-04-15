@@ -75,11 +75,9 @@ function Home() {
               icon: "📊",
             },
           ].map((feature, index) => (
-            <motion.div
+            <div
               key={index}
               className="rounded-2xl bg-gradient-to-br from-blue-50 to-pink-50 p-4 text-center shadow-lg sm:rounded-3xl sm:p-6"
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
             >
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-xs font-bold tracking-widest text-blue-700 shadow-sm">
                 {feature.icon}
@@ -90,7 +88,7 @@ function Home() {
               <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
                 {feature.description}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </section>
@@ -121,13 +119,9 @@ function Home() {
                 "Choose manual or automatic applications and track your progress effortlessly.",
             },
           ].map((item, index) => (
-            <motion.div
+            <div
               key={index}
               className="rounded-2xl bg-white p-4 text-center shadow-lg sm:rounded-3xl sm:p-6"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
             >
               <div className="mb-2 text-2xl font-bold text-blue-600 sm:text-3xl">
                 {item.step}
@@ -138,7 +132,7 @@ function Home() {
               <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
                 {item.description}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </section>
