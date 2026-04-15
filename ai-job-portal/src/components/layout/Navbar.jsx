@@ -3,7 +3,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import {
   Home,
   Briefcase,
-  User,
   LayoutDashboard,
   FileText,
   LogIn,
@@ -48,7 +47,6 @@ function Navbar() {
     { to: "/", label: "Home", icon: Home },
     { to: "/jobs", label: "Jobs", icon: Briefcase },
     { to: "/applications", label: "Applications", icon: FileText },
-    { to: "/profile", label: "Profile", icon: User },
     { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   ];
 
@@ -73,25 +71,34 @@ function Navbar() {
             const LinkIcon = Icon;
 
             return (
-            <NavLink
-              key={to}
-              to={to}
-              className={({ isActive }) =>
-                `flex items-center gap-2 rounded-full px-3 py-2 text-sm transition duration-300 ${
-                  isActive
-                    ? "bg-blue-50 text-blue-700"
-                    : "text-gray-700 hover:bg-gray-50 hover:text-blue-700"
-                }`
-              }
-            >
-              <LinkIcon className="h-4 w-4" />
-              {label}
-            </NavLink>
-          );
+              <NavLink
+                key={to}
+                to={to}
+                className={({ isActive }) =>
+                  `flex items-center gap-2 rounded-full px-3 py-2 text-sm transition duration-300 ${
+                    isActive
+                      ? "bg-blue-50 text-blue-700"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-blue-700"
+                  }`
+                }
+              >
+                <LinkIcon className="h-4 w-4" />
+                {label}
+              </NavLink>
+            );
           })}
 
           {user && (
-            <div className="flex items-center gap-3 rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5">
+            <NavLink
+              to="/profile"
+              className={({ isActive }) =>
+                `flex items-center gap-3 rounded-full border px-3 py-1.5 transition ${
+                  isActive
+                    ? "border-blue-200 bg-blue-50"
+                    : "border-gray-200 bg-gray-50 hover:bg-gray-100"
+                }`
+              }
+            >
               <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-blue-100 to-pink-100 text-sm font-bold text-blue-700">
                 {avatarUrl ? (
                   <img
@@ -106,7 +113,7 @@ function Navbar() {
               <span className="max-w-32 truncate text-sm font-semibold text-gray-800">
                 {displayName}
               </span>
-            </div>
+            </NavLink>
           )}
 
           {user && (
@@ -136,8 +143,42 @@ function Navbar() {
           id="mobile-navigation"
           className="mx-auto mt-4 max-w-7xl space-y-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-lg md:hidden"
         >
+          {links.map(({ to, label, icon: Icon }) => {
+            const LinkIcon = Icon;
+
+            return (
+              <NavLink
+                key={to}
+                to={to}
+                onClick={() => setIsOpen(false)}
+                className={({ isActive }) =>
+                  `flex items-center justify-between rounded-xl px-3 py-3 text-base transition ${
+                    isActive
+                      ? "bg-blue-50 text-blue-700"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-blue-700"
+                  }`
+                }
+              >
+                <span className="flex items-center gap-3">
+                  <LinkIcon className="h-5 w-5" />
+                  {label}
+                </span>
+              </NavLink>
+            );
+          })}
+
           {user && (
-            <div className="flex items-center gap-3 rounded-2xl bg-gray-50 px-3 py-3">
+            <NavLink
+              to="/profile"
+              onClick={() => setIsOpen(false)}
+              className={({ isActive }) =>
+                `flex items-center gap-3 rounded-2xl px-3 py-3 transition ${
+                  isActive
+                    ? "bg-blue-50"
+                    : "bg-gray-50 hover:bg-gray-100"
+                }`
+              }
+            >
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-blue-100 to-pink-100 text-sm font-bold text-blue-700">
                 {avatarUrl ? (
                   <img
@@ -149,38 +190,14 @@ function Navbar() {
                   initials || "U"
                 )}
               </div>
-              <div>
-                <p className="text-sm font-semibold text-gray-800">
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold text-gray-800">
                   {displayName}
                 </p>
-                <p className="text-xs text-gray-500">{user.email}</p>
+                <p className="truncate text-xs text-gray-500">{user.email}</p>
               </div>
-            </div>
-          )}
-
-          {links.map(({ to, label, icon: Icon }) => {
-            const LinkIcon = Icon;
-
-            return (
-            <NavLink
-              key={to}
-              to={to}
-              onClick={() => setIsOpen(false)}
-              className={({ isActive }) =>
-                `flex items-center justify-between rounded-xl px-3 py-3 text-base transition ${
-                  isActive
-                    ? "bg-blue-50 text-blue-700"
-                    : "text-gray-700 hover:bg-gray-50 hover:text-blue-700"
-                }`
-              }
-            >
-              <span className="flex items-center gap-3">
-                <LinkIcon className="h-5 w-5" />
-                {label}
-              </span>
             </NavLink>
-          );
-          })}
+          )}
 
           {user && (
             <button

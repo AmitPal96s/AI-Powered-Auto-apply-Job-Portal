@@ -40,7 +40,7 @@ function AIInsightsCard({ skills = [], profile = {} }) {
         {/* Refresh Button */}
         <button
           onClick={fetchSuggestions}
-          className="rounded-full bg-gray-100 p-2 text-gray-700 transition hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+          className="rounded-full bg-gray-100 p-2 text-gray-700 transition hover:bg-gray-200"
           aria-label="Refresh Insights"
         >
           <RefreshCw size={18} />
@@ -53,7 +53,7 @@ function AIInsightsCard({ skills = [], profile = {} }) {
           {[1, 2, 3].map((item) => (
             <div
               key={item}
-              className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"
+              className="h-4 rounded bg-gray-200 animate-pulse"
             ></div>
           ))}
         </div>
@@ -65,7 +65,7 @@ function AIInsightsCard({ skills = [], profile = {} }) {
           {suggestions.map((suggestion, index) => (
             <li
               key={index}
-              className="rounded-xl bg-purple-50 p-3 text-sm text-gray-700 dark:bg-gray-800 dark:text-gray-200 sm:text-base"
+              className="rounded-xl bg-purple-50 p-3 text-sm text-gray-700 sm:text-base"
             >
               💡 {suggestion}
             </li>
@@ -75,7 +75,7 @@ function AIInsightsCard({ skills = [], profile = {} }) {
 
       {/* Empty State */}
       {!loading && suggestions.length === 0 && (
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm text-gray-500">
           No insights available yet. Add your skills, role, and profile details to unlock personalized recommendations.
         </p>
       )}

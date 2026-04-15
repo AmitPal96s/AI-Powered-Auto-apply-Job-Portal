@@ -32,10 +32,10 @@ function AIRejectionFeedback({ jobTitle, company, userSkills = [] }) {
   };
 
   return (
-    <div className="mt-4 rounded-2xl border border-red-200 bg-red-50 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <div className="mt-4 rounded-2xl border border-red-200 bg-red-50 p-4 shadow-sm">
       <div className="mb-3 flex items-center gap-2">
         <AlertTriangle className="text-red-500" size={20} />
-        <h3 className="font-semibold text-gray-800 dark:text-white">
+        <h3 className="font-semibold text-gray-800">
           Application Feedback
         </h3>
       </div>
@@ -49,7 +49,7 @@ function AIRejectionFeedback({ jobTitle, company, userSkills = [] }) {
           {loading ? "Generating..." : "Get AI Feedback"}
         </button>
       ) : (
-        <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+        <p className="text-sm leading-relaxed text-gray-700">
           {feedback}
         </p>
       )}

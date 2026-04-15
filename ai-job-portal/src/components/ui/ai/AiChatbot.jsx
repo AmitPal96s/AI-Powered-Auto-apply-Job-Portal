@@ -28,7 +28,7 @@ function AIChatbot() {
   };
 
   return (
-    <div className="flex h-full flex-col bg-white dark:bg-gray-900">
+    <div className="flex h-full flex-col bg-white">
       <div className="flex items-center gap-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 p-3 text-white sm:p-4">
         <img
           src={genieIcon}
@@ -55,12 +55,13 @@ function AIChatbot() {
               />
             )}
 
-            <div
-              className={`max-w-[85%] break-words whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm sm:max-w-[75%] sm:px-4 ${msg.role === "user"
+          <div
+            className={`max-w-[85%] break-words whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm sm:max-w-[75%] sm:px-4 ${
+              msg.role === "user"
                 ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100"
-                }`}
-            >
+                : "bg-gray-100 text-gray-800"
+            }`}
+          >
               {msg.content}
             </div>
 
@@ -80,7 +81,7 @@ function AIChatbot() {
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="flex flex-col gap-2 border-t p-3 dark:border-gray-700 sm:flex-row sm:p-4">
+      <div className="flex flex-col gap-2 border-t p-3 sm:flex-row sm:p-4">
         <input
           type="text"
           value={input}

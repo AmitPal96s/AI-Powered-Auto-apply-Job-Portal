@@ -31,21 +31,21 @@ function AISkillGapCard({ userSkills = [], jobSkills = [] }) {
   if (!loading && missingSkills.length === 0) return null;
 
   return (
-    <div className="mt-4 rounded-2xl border border-yellow-200 bg-yellow-50 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <div className="mt-4 rounded-2xl border border-yellow-200 bg-yellow-50 p-4 shadow-sm">
       <div className="mb-2 flex items-center gap-2">
         <Lightbulb className="text-yellow-500" size={20} />
-        <h3 className="font-semibold text-gray-800 dark:text-white">
+        <h3 className="font-semibold text-gray-800">
           Skill Gap Analysis
         </h3>
       </div>
 
       {loading ? (
         <div className="animate-pulse space-y-2">
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
+          <div className="h-4 rounded bg-gray-200"></div>
+          <div className="h-4 rounded bg-gray-200"></div>
         </div>
       ) : (
-        <ul className="list-disc list-inside text-sm text-gray-700 dark:text-gray-300">
+        <ul className="list-disc list-inside text-sm text-gray-700">
           {missingSkills.map((skill, index) => (
             <li key={index}>{skill}</li>
           ))}

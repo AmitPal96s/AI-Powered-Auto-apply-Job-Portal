@@ -22,7 +22,7 @@ function AIRecommendedJobs() {
   }, []);
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-md dark:bg-gray-900 sm:p-6">
+    <div className="rounded-2xl bg-white p-4 shadow-md sm:p-6">
       <h2 className="mb-4 text-xl font-semibold sm:text-2xl">
         AI Recommended Jobs
       </h2>
