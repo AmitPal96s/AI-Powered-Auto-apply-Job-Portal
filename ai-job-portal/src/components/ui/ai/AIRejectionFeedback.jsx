@@ -32,8 +32,8 @@ function AIRejectionFeedback({ jobTitle, company, userSkills = [] }) {
   };
 
   return (
-    <div className="bg-red-50 dark:bg-gray-800 border border-red-200 dark:border-gray-700 rounded-2xl p-4 mt-4 shadow-sm">
-      <div className="flex items-center gap-2 mb-3">
+    <div className="mt-4 rounded-2xl border border-red-200 bg-red-50 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+      <div className="mb-3 flex items-center gap-2">
         <AlertTriangle className="text-red-500" size={20} />
         <h3 className="font-semibold text-gray-800 dark:text-white">
           Application Feedback
@@ -43,13 +43,13 @@ function AIRejectionFeedback({ jobTitle, company, userSkills = [] }) {
       {!feedback ? (
         <button
           onClick={handleGenerateFeedback}
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
+          className="rounded-lg bg-red-500 px-4 py-2 text-sm text-white transition hover:bg-red-600"
           aria-label="Generate AI feedback"
         >
           {loading ? "Generating..." : "Get AI Feedback"}
         </button>
       ) : (
-        <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+        <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
           {feedback}
         </p>
       )}

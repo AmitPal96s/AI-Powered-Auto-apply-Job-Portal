@@ -50,12 +50,17 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 via-white to-pink-50 px-4 py-10">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white p-8 rounded-xl shadow-md space-y-4"
+        className="w-full max-w-md space-y-4 rounded-3xl border border-gray-100 bg-white p-6 shadow-xl sm:p-8"
       >
-        <h2 className="text-2xl font-bold text-center">Login</h2>
+        <div className="space-y-2 text-center">
+          <h2 className="text-2xl font-bold sm:text-3xl">Login</h2>
+          <p className="text-sm text-gray-500">
+            Continue to your personalized job dashboard.
+          </p>
+        </div>
 
         <Input
           label="Email"

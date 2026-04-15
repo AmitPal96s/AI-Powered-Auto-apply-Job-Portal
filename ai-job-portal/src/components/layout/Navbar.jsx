@@ -55,35 +55,40 @@ function Navbar() {
   const links = user ? privateLinks : publicLinks;
 
   return (
-    <nav className="bg-white shadow-md px-6 py-4">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        {/* Logo */}
-        <div
-          className="flex items-center gap-2 cursor-pointer"
+    <nav className="sticky top-0 z-40 border-b border-gray-100 bg-white/95 px-4 py-3 shadow-sm backdrop-blur sm:px-6">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
+        <button
+          type="button"
+          className="flex items-center gap-2 text-left"
           onClick={() => navigate("/")}
         >
-          <img src={logo} alt="JobGenie Logo" className="h-10" />
-          <span className="text-xl font-bold text-gray-800">JobGenie</span>
-        </div>
+          <img src={logo} alt="JobGenie Logo" className="h-8 w-auto sm:h-10" />
+          <span className="text-lg font-bold text-gray-800 sm:text-xl">
+            JobGenie
+          </span>
+        </button>
 
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-6 font-medium">
-          {links.map(({ to, label, icon: Icon }) => (
+        <div className="hidden items-center gap-4 font-medium md:flex lg:gap-6">
+          {links.map(({ to, label, icon: Icon }) => {
+            const LinkIcon = Icon;
+
+            return (
             <NavLink
               key={to}
               to={to}
               className={({ isActive }) =>
-                `flex items-center gap-2 transition duration-300 ${
+                `flex items-center gap-2 rounded-full px-3 py-2 text-sm transition duration-300 ${
                   isActive
-                    ? "bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 bg-clip-text text-transparent font-semibold"
-                    : "text-gray-700 hover:bg-gradient-to-r hover:from-blue-600 hover:via-purple-600 hover:to-pink-500 hover:bg-clip-text hover:text-transparent"
+                    ? "bg-blue-50 text-blue-700"
+                    : "text-gray-700 hover:bg-gray-50 hover:text-blue-700"
                 }`
               }
             >
-              <Icon className="w-5 h-5" />
+              <LinkIcon className="h-4 w-4" />
               {label}
             </NavLink>
-          ))}
+          );
+          })}
 
           {user && (
             <div className="flex items-center gap-3 rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5">
@@ -104,30 +109,33 @@ function Navbar() {
             </div>
           )}
 
-          {/* Logout Button */}
           {user && (
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 text-red-500 hover:text-red-600"
+              className="flex items-center gap-2 rounded-full px-3 py-2 text-sm text-red-500 transition hover:bg-red-50 hover:text-red-600"
             >
-              <LogOut className="w-5 h-5" />
+              <LogOut className="h-4 w-4" />
               Logout
             </button>
           )}
         </div>
 
-        {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden"
+          type="button"
+          className="inline-flex items-center justify-center rounded-full border border-gray-200 p-2 text-gray-700 transition hover:bg-gray-50 md:hidden"
           onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-controls="mobile-navigation"
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden mt-4 space-y-4 bg-white shadow-md rounded-xl p-4">
+        <div
+          id="mobile-navigation"
+          className="mx-auto mt-4 max-w-7xl space-y-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-lg md:hidden"
+        >
           {user && (
             <div className="flex items-center gap-3 rounded-2xl bg-gray-50 px-3 py-3">
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-blue-100 to-pink-100 text-sm font-bold text-blue-700">
@@ -142,30 +150,44 @@ function Navbar() {
                 )}
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-800">{displayName}</p>
+                <p className="text-sm font-semibold text-gray-800">
+                  {displayName}
+                </p>
                 <p className="text-xs text-gray-500">{user.email}</p>
               </div>
             </div>
           )}
 
-          {links.map(({ to, label, icon: Icon }) => (
+          {links.map(({ to, label, icon: Icon }) => {
+            const LinkIcon = Icon;
+
+            return (
             <NavLink
               key={to}
               to={to}
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 text-lg text-gray-700 hover:text-blue-600"
+              className={({ isActive }) =>
+                `flex items-center justify-between rounded-xl px-3 py-3 text-base transition ${
+                  isActive
+                    ? "bg-blue-50 text-blue-700"
+                    : "text-gray-700 hover:bg-gray-50 hover:text-blue-700"
+                }`
+              }
             >
-              <Icon className="w-5 h-5" />
-              {label}
+              <span className="flex items-center gap-3">
+                <LinkIcon className="h-5 w-5" />
+                {label}
+              </span>
             </NavLink>
-          ))}
+          );
+          })}
 
           {user && (
             <button
               onClick={handleLogout}
-              className="flex items-center gap-3 text-lg text-red-500 hover:text-red-600"
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-base text-red-500 transition hover:bg-red-50 hover:text-red-600"
             >
-              <LogOut className="w-5 h-5" />
+              <LogOut className="h-5 w-5" />
               Logout
             </button>
           )}

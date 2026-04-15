@@ -1,66 +1,54 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import heroImage from "../../assets/hero.png";
 
 function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-pink-50">
-    
-      {/* Hero Section */}
-      <section className="flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-16">
-        {/* Text Content */}
-        <motion.div
-          className="md:w-1/2"
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
+    <div className="min-h-screen overflow-x-hidden bg-gradient-to-br from-blue-50 via-white to-pink-50">
+      <section className="mx-auto flex w-full max-w-7xl flex-col-reverse items-center justify-between gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:flex-row lg:gap-16 lg:py-20">
+        <div
+          className="w-full max-w-2xl text-center lg:w-1/2 lg:text-left"
         >
-          <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-pink-500 bg-clip-text text-transparent">
+          <h1 className="mb-5 text-3xl font-bold leading-tight bg-gradient-to-r from-blue-600 to-pink-500 bg-clip-text text-transparent sm:text-4xl lg:text-5xl">
             Let AI Find & Apply Jobs for You
           </h1>
-          <p className="text-gray-600 text-lg mb-8">
+          <p className="mb-8 text-base leading-relaxed text-gray-600 sm:text-lg">
             Build your professional profile, discover jobs tailored to your
             skills, and let our AI automatically apply to the best opportunities.
             Your dream job is just a click away.
           </p>
-          <div className="flex gap-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
             <Link
               to="/register"
-              className="bg-gradient-to-r from-blue-600 to-pink-500 text-white px-6 py-3 rounded-xl shadow-lg hover:scale-105 transition"
+              className="inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-pink-500 px-6 py-3 text-white shadow-lg transition hover:scale-105 sm:w-auto"
             >
               Get Started
             </Link>
             <Link
               to="/jobs"
-              className="bg-white text-gray-800 px-6 py-3 rounded-xl shadow-lg hover:scale-105 transition"
+              className="inline-flex w-full items-center justify-center rounded-xl bg-white px-6 py-3 text-gray-800 shadow-lg transition hover:scale-105 sm:w-auto"
             >
               Explore Jobs
             </Link>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Hero Image */}
-        <motion.div
-          className="md:w-1/2 mt-10 md:mt-0"
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
+          className="w-full lg:w-1/2"
         >
           <img
             src={heroImage}
             alt="AI Job Search Illustration"
-            className="w-full max-w-md mx-auto"
+            className="mx-auto w-full max-w-sm sm:max-w-md lg:max-w-xl"
           />
-        </motion.div>
+        </div>
       </section>
 
-      {/* Features Section */}
-      <section className="px-6 md:px-16 py-16 bg-white">
-        <h2 className="text-3xl font-bold text-center mb-12">
+      <section className="mx-auto w-full max-w-7xl bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-16">
+        <h2 className="mb-10 text-center text-2xl font-bold sm:mb-12 sm:text-3xl">
           Why Choose Our Platform?
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 sm:gap-6 lg:gap-8">
           {[
             {
               title: "AI Job Matching",
@@ -89,26 +77,30 @@ function Home() {
           ].map((feature, index) => (
             <motion.div
               key={index}
-              className="bg-gradient-to-br from-blue-50 to-pink-50 p-6 rounded-3xl shadow-lg text-center"
+              className="rounded-2xl bg-gradient-to-br from-blue-50 to-pink-50 p-4 text-center shadow-lg sm:rounded-3xl sm:p-6"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="text-4xl mb-4">{feature.icon}</div>
-              <h3 className="text-xl font-semibold mb-2">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-xs font-bold tracking-widest text-blue-700 shadow-sm">
+                {feature.icon}
+              </div>
+              <h3 className="mb-2 text-lg font-semibold sm:text-xl">
                 {feature.title}
               </h3>
-              <p className="text-gray-600">{feature.description}</p>
+              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                {feature.description}
+              </p>
             </motion.div>
           ))}
         </div>
       </section>
 
-      <section className="px-6 md:px-16 py-16">
-        <h2 className="text-3xl font-bold text-center mb-12">
+      <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-16">
+        <h2 className="mb-10 text-center text-2xl font-bold sm:mb-12 sm:text-3xl">
           How It Works
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6 lg:gap-8">
           {[
             {
               step: "1",
@@ -131,35 +123,36 @@ function Home() {
           ].map((item, index) => (
             <motion.div
               key={index}
-              className="bg-white p-6 rounded-3xl shadow-lg text-center"
+              className="rounded-2xl bg-white p-4 text-center shadow-lg sm:rounded-3xl sm:p-6"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
             >
-              <div className="text-3xl font-bold text-blue-600 mb-2">
+              <div className="mb-2 text-2xl font-bold text-blue-600 sm:text-3xl">
                 {item.step}
               </div>
-              <h3 className="text-xl font-semibold mb-2">
+              <h3 className="mb-2 text-lg font-semibold sm:text-xl">
                 {item.title}
               </h3>
-              <p className="text-gray-600">{item.description}</p>
+              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                {item.description}
+              </p>
             </motion.div>
           ))}
         </div>
       </section>
 
-
-      <section className="px-6 md:px-16 py-16 bg-gradient-to-r from-blue-600 to-pink-500 text-white text-center">
-        <h2 className="text-3xl font-bold mb-4">
+      <section className="mx-auto w-full max-w-7xl bg-gradient-to-r from-blue-600 to-pink-500 px-4 py-12 text-center text-white sm:px-6 sm:py-16 lg:px-16">
+        <h2 className="mb-4 text-2xl font-bold sm:text-3xl">
           Ready to Land Your Dream Job?
         </h2>
-        <p className="mb-6">
+        <p className="mb-6 text-sm leading-relaxed sm:text-base">
           Join thousands of job seekers who are accelerating their careers with AI.
         </p>
         <Link
           to="/register"
-          className="bg-white text-blue-600 px-8 py-3 rounded-xl font-semibold hover:scale-105 transition"
+          className="inline-flex items-center justify-center rounded-xl bg-white px-8 py-3 font-semibold text-blue-600 transition hover:scale-105"
         >
           Sign Up Now
         </Link>

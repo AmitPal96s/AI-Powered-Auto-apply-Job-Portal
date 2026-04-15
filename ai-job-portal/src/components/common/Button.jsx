@@ -9,7 +9,7 @@ const Button = ({
   ...props
 }) => {
   const baseStyles =
-    "px-4 py-2 rounded-xl font-medium transition duration-300 focus:outline-none";
+    "inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition duration-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 sm:px-5 sm:py-3 sm:text-base";
 
   const variants = {
     primary:

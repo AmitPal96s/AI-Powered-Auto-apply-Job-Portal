@@ -172,8 +172,8 @@ function Profile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-pink-50 p-6">
-        <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-xl p-8">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-pink-50 px-4 py-6 sm:px-6">
+        <div className="mx-auto max-w-5xl rounded-3xl bg-white p-6 shadow-xl sm:p-8">
           <p className="text-gray-500">Loading profile...</p>
         </div>
       </div>
@@ -181,21 +181,23 @@ function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-pink-50 p-6">
-      <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
-        <div className="h-32 bg-gradient-to-r from-blue-600 to-pink-500" />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-pink-50 px-4 py-6 sm:px-6">
+      <div className="mx-auto max-w-5xl overflow-hidden rounded-3xl bg-white shadow-xl">
+        <div className="h-24 bg-gradient-to-r from-blue-600 to-pink-500 sm:h-32" />
 
-        <div className="p-8">
+        <div className="p-4 sm:p-6 lg:p-8">
           <div className="mb-6">
-            <h1 className="text-3xl font-bold mb-2">Profile Settings</h1>
-            <p className="text-gray-600">
+            <h1 className="mb-2 text-2xl font-bold sm:text-3xl">
+              Profile Settings
+            </h1>
+            <p className="text-sm text-gray-600 sm:text-base">
               Complete this profile so the auto-apply system can match and apply to relevant jobs.
             </p>
           </div>
 
-          <div className="mb-8 rounded-3xl border border-gray-200 bg-gray-50 p-6">
-            <div className="flex flex-col gap-6 md:flex-row md:items-center">
-              <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-gradient-to-br from-blue-100 to-pink-100 shadow-lg">
+          <div className="mb-8 rounded-2xl border border-gray-200 bg-gray-50 p-4 sm:rounded-3xl sm:p-6">
+            <div className="flex flex-col gap-4 sm:gap-6 md:flex-row md:items-center">
+              <div className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-gradient-to-br from-blue-100 to-pink-100 shadow-lg sm:h-28 sm:w-28">
                 {profile.avatarUrl ? (
                   <img
                     src={profile.avatarUrl}
@@ -217,7 +219,7 @@ function Profile() {
               </div>
 
               <div className="flex-1">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2 className="text-lg font-semibold text-gray-900 sm:text-xl">
                   Profile Picture
                 </h2>
                 <p className="mt-1 text-sm text-gray-600">
@@ -225,7 +227,7 @@ function Profile() {
                 </p>
 
                 <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <label className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:opacity-90">
+                  <label className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:opacity-90">
                     Upload Photo
                     <input
                       ref={avatarInputRef}
@@ -239,7 +241,7 @@ function Profile() {
                   <button
                     type="button"
                     onClick={handleRemoveAvatar}
-                    className="inline-flex items-center justify-center rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-white"
+                    className="inline-flex items-center justify-center rounded-xl border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-white"
                   >
                     Remove Photo
                   </button>
@@ -252,7 +254,7 @@ function Profile() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
             <InputField label="Full Name" name="name" value={profile.name} onChange={handleChange} />
             <InputField label="Email" name="email" value={profile.email} disabled />
             <InputField label="Professional Headline" name="headline" value={profile.headline} onChange={handleChange} />
@@ -260,52 +262,54 @@ function Profile() {
           </div>
 
           <div className="mb-6">
-            <label className="block font-medium mb-1">About</label>
+            <label className="mb-1 block text-sm font-medium text-gray-700 sm:text-base">
+              About
+            </label>
             <textarea
               name="bio"
               value={profile.bio}
               onChange={handleChange}
               rows="4"
-              className="w-full border p-3 rounded-xl"
+              className="w-full rounded-xl border border-gray-200 p-3 text-sm shadow-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 sm:text-base"
               placeholder="Write a short summary about yourself"
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
             <InputField label="Institute / University" name="institute" value={profile.institute} onChange={handleChange} />
             <InputField label="Degree" name="degree" value={profile.degree} onChange={handleChange} />
             <InputField label="Graduation Year" name="graduationYear" value={profile.graduationYear} onChange={handleChange} />
             <InputField label="Experience" name="experience" value={profile.experience} onChange={handleChange} placeholder="e.g. Fresher, 2 years" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
             <InputField label="Preferred Job Role" name="preferredRole" value={profile.preferredRole} onChange={handleChange} />
             <InputField label="Preferred Location" name="preferredLocation" value={profile.preferredLocation} onChange={handleChange} />
             <InputField label="Minimum Match Score" name="minMatchScore" type="number" value={profile.minMatchScore} onChange={handleChange} />
             <InputField label="Skills (comma separated)" name="skills" value={profile.skills} onChange={handleChange} placeholder="React, Node.js, MongoDB" />
           </div>
 
-          <div className="mb-6 flex items-center gap-3">
+          <div className="mb-6 flex items-start gap-3">
             <input
               id="autoApplyEnabled"
               name="autoApplyEnabled"
               type="checkbox"
               checked={profile.autoApplyEnabled}
               onChange={handleChange}
-              className="h-4 w-4"
+              className="mt-1 h-4 w-4 shrink-0"
             />
-            <label htmlFor="autoApplyEnabled" className="font-medium">
+            <label htmlFor="autoApplyEnabled" className="text-sm font-medium text-gray-700 sm:text-base">
               Enable auto apply for matching jobs
             </label>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
             <InputField label="LinkedIn URL" name="linkedin" value={profile.linkedin} onChange={handleChange} />
             <InputField label="GitHub URL" name="github" value={profile.github} onChange={handleChange} />
             <InputField label="Portfolio URL" name="portfolio" value={profile.portfolio} onChange={handleChange} />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <div className="mb-8 grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
             <InputField label="Resume URL" name="resumeUrl" value={profile.resumeUrl} onChange={handleChange} placeholder="https://..." />
             <InputField label="Resume File Name" name="resumeName" value={profile.resumeName} onChange={handleChange} placeholder="resume.pdf" />
           </div>
@@ -313,7 +317,7 @@ function Profile() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="bg-gradient-to-r from-blue-600 to-pink-500 text-white px-8 py-3 rounded-xl hover:opacity-90 disabled:opacity-50"
+            className="inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-pink-500 px-8 py-3 text-white transition hover:opacity-90 disabled:opacity-50 sm:w-auto"
           >
             {saving ? "Saving..." : "Save Profile"}
           </button>
@@ -334,7 +338,9 @@ function InputField({
 }) {
   return (
     <div>
-      <label className="block font-medium mb-1">{label}</label>
+      <label className="mb-1 block text-sm font-medium text-gray-700 sm:text-base">
+        {label}
+      </label>
       <input
         type={type}
         name={name}
@@ -342,7 +348,7 @@ function InputField({
         onChange={onChange}
         placeholder={placeholder}
         disabled={disabled}
-        className="w-full border p-3 rounded-xl disabled:bg-gray-100 disabled:text-gray-500"
+        className="w-full rounded-xl border border-gray-200 p-3 text-sm shadow-sm outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 disabled:bg-gray-100 disabled:text-gray-500 sm:text-base"
       />
     </div>
   );

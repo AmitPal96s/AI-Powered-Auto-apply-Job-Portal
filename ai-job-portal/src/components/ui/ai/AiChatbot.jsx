@@ -28,19 +28,19 @@ function AIChatbot() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white">
-      {/* Header */}
-      <div className="flex items-center gap-2 p-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white">
+    <div className="flex h-full flex-col bg-white dark:bg-gray-900">
+      <div className="flex items-center gap-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 p-3 text-white sm:p-4">
         <img
           src={genieIcon}
           alt="JobGenie Assistant"
-          className="w-10 h-10 object-contain rounded-full shadow-lg hover:scale-110 transition"
+          className="h-9 w-9 rounded-full object-contain shadow-lg transition hover:scale-110 sm:h-10 sm:w-10"
         />
-        <h2 className="font-semibold">JobGenie AI Assistant</h2>
+        <h2 className="text-sm font-semibold sm:text-base">
+          JobGenie AI Assistant
+        </h2>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 space-y-3 overflow-y-auto p-3 sm:space-y-4 sm:p-4">
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -51,26 +51,25 @@ function AIChatbot() {
               <img
                 src={genieIcon}
                 alt="JobGenie Assistant"
-                className="w-10 h-10 object-contain rounded-full shadow-lg hover:scale-110 transition"
+                className="h-9 w-9 rounded-full object-contain shadow-lg transition hover:scale-110 sm:h-10 sm:w-10"
               />
             )}
 
             <div
-              className={`max-w-[75%] px-4 py-2 rounded-2xl text-sm ${msg.role === "user"
+              className={`max-w-[85%] break-words whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm sm:max-w-[75%] sm:px-4 ${msg.role === "user"
                 ? "bg-blue-600 text-white"
-                : "bg-gray-100  text-gray-800 "
+                : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100"
                 }`}
             >
               {msg.content}
             </div>
 
             {msg.role === "user" && (
-              <User className="text-blue-600 mt-1" size={18} />
+              <User className="mt-1 text-blue-600" size={18} />
             )}
           </div>
         ))}
 
-        {/* Loading Indicator */}
         {loading && (
           <div className="flex items-center gap-2 text-gray-500 text-sm">
             <Bot size={16} />
@@ -81,19 +80,18 @@ function AIChatbot() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Section */}
-      <div className="p-4 border-t dark:border-gray-700 flex gap-2">
+      <div className="flex flex-col gap-2 border-t p-3 dark:border-gray-700 sm:flex-row sm:p-4">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyPress}
           placeholder="Ask about careers, skills, or interviews..."
-          className="flex-1 px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="min-w-0 flex-1 rounded-xl border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:px-4 sm:py-2.5 sm:text-base"
         />
         <button
           onClick={handleSend}
-          className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-xl transition"
+          className="rounded-xl bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700 sm:px-4"
           aria-label="Send Message"
         >
           <Send size={18} />

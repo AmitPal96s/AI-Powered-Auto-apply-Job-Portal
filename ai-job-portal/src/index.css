@@ -1,7 +1,20 @@
 /* src/index.css */
 @import "tailwindcss";
 
-/* Optional: Smooth transitions for dark mode */
 html {
   transition: background-color 0.3s ease, color 0.3s ease;
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: #f8fafc;
+  color: #0f172a;
 }

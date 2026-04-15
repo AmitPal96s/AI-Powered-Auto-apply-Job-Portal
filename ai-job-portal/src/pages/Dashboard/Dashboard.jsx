@@ -74,20 +74,20 @@ function Dashboard() {
   }, [loadApplications]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-pink-50 p-6">
-      <div className="mb-8 rounded-3xl bg-white p-6 shadow-lg">
-        <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-pink-50 px-4 py-6 sm:px-6">
+      <div className="mb-6 rounded-3xl bg-white p-4 shadow-lg sm:mb-8 sm:p-6">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-pink-500 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold leading-tight bg-gradient-to-r from-blue-600 to-pink-500 bg-clip-text text-transparent sm:text-4xl">
               Welcome Back, {displayName}
             </h1>
-            <p className="text-gray-600 mt-2">
+            <p className="mt-2 text-sm text-gray-600 sm:text-base">
               Track your job applications and manage your AI job hunt.
             </p>
           </div>
 
-          <div className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3">
-            <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-blue-100 to-pink-100 text-xl font-bold text-blue-700">
+          <div className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-3 py-3 sm:gap-4 sm:px-4">
+            <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-blue-100 to-pink-100 text-lg font-bold text-blue-700 sm:h-16 sm:w-16 sm:text-xl">
               {avatarUrl ? (
                 <img
                   src={avatarUrl}
@@ -100,42 +100,44 @@ function Dashboard() {
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">Profile</p>
-              <p className="text-base font-semibold text-gray-900">{user?.email}</p>
+              <p className="text-sm font-semibold text-gray-900 sm:text-base">
+                {user?.email}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="mt-6">
+        <div className="mt-5 sm:mt-6">
           <AIInsightsCard skills={userSkills} profile={userProfile} />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 sm:gap-6">
         <StatCard title="Jobs Applied" value={stats.applied} />
         <StatCard title="Strong Matches" value={stats.matches} />
         <StatCard title="Interviews" value={stats.interviews} />
         <StatCard title="Auto Apply" value={stats.autoApply ? "ON" : "OFF"} />
       </div>
 
-      <div className="bg-white p-6 rounded-3xl shadow-lg mb-10">
-        <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
-        <div className="flex flex-wrap gap-4">
+      <div className="mb-8 rounded-3xl bg-white p-4 shadow-lg sm:p-6">
+        <h2 className="mb-4 text-xl font-bold sm:text-2xl">Quick Actions</h2>
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
           <Link
             to="/profile"
-            className="bg-blue-600 text-white px-5 py-3 rounded-xl hover:opacity-90 transition"
+            className="inline-flex w-full items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-white transition hover:opacity-90 sm:w-auto"
           >
             Update Profile
           </Link>
           <Link
             to="/jobs"
-            className="bg-pink-500 text-white px-5 py-3 rounded-xl hover:opacity-90 transition"
+            className="inline-flex w-full items-center justify-center rounded-xl bg-pink-500 px-5 py-3 text-white transition hover:opacity-90 sm:w-auto"
           >
             View Recommended Jobs
           </Link>
           <button
             onClick={handleAutoApply}
             disabled={loading}
-            className="bg-purple-600 text-white px-5 py-3 rounded-xl hover:opacity-90 transition disabled:opacity-50 flex items-center gap-2"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-purple-600 px-5 py-3 text-white transition hover:opacity-90 disabled:opacity-50 sm:w-auto"
           >
             <Sparkles size={18} />
             {loading ? "Applying..." : "Auto Apply"}
@@ -147,24 +149,24 @@ function Dashboard() {
           </p>
         )}
         {lastAutoApplySummary && (
-          <div className="mt-4 rounded-2xl bg-blue-50 p-4 text-sm text-gray-700">
+          <div className="mt-4 rounded-2xl bg-blue-50 p-4 text-sm leading-relaxed text-gray-700">
             Scanned <strong>{lastAutoApplySummary.totalJobsScanned}</strong> jobs and created <strong>{lastAutoApplySummary.totalApplied}</strong> new applications.
           </div>
         )}
       </div>
 
-      <div className="bg-white p-6 rounded-3xl shadow-lg">
-        <h2 className="text-2xl font-bold mb-4">Recent Applications</h2>
+      <div className="rounded-3xl bg-white p-4 shadow-lg sm:p-6">
+        <h2 className="mb-4 text-xl font-bold sm:text-2xl">Recent Applications</h2>
         {pageLoading ? (
           <p className="text-gray-500">Loading applications...</p>
         ) : recentApplications.length === 0 ? (
           <p className="text-gray-500">No applications yet.</p>
         ) : (
-          <ul className="space-y-4">
+          <ul className="space-y-3 sm:space-y-4">
             {recentApplications.map((application) => (
               <li
                 key={application._id}
-                className="flex justify-between items-center border-b pb-2"
+                className="flex flex-col gap-1 border-b border-gray-100 pb-3 sm:flex-row sm:items-center sm:justify-between"
               >
                 <span className="font-medium">{application.jobTitle}</span>
                 <span className="text-sm text-green-600">{application.status}</span>
@@ -179,9 +181,9 @@ function Dashboard() {
 
 function StatCard({ title, value }) {
   return (
-    <div className="bg-white p-6 rounded-3xl shadow-lg text-center">
-      <h3 className="text-gray-500">{title}</h3>
-      <p className="text-3xl font-bold mt-2">{value}</p>
+    <div className="rounded-3xl bg-white p-4 text-center shadow-lg sm:p-6">
+      <h3 className="text-sm text-gray-500 sm:text-base">{title}</h3>
+      <p className="mt-2 text-2xl font-bold sm:text-3xl">{value}</p>
     </div>
   );
 }

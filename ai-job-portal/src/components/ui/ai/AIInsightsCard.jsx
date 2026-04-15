@@ -27,12 +27,12 @@ function AIInsightsCard({ skills = [], profile = {} }) {
   }, [skills, profile]);
 
   return (
-    <div className="bg-white rounded-3xl shadow-lg p-5 sm:p-6 transition">
+    <div className="rounded-2xl bg-white p-4 shadow-lg transition sm:p-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-4 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <Sparkles className="text-purple-600" size={24} />
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
+          <Sparkles className="text-purple-600" size={22} />
+          <h2 className="text-base font-semibold text-gray-800 sm:text-xl">
             AI Career Insights
           </h2>
         </div>
@@ -40,7 +40,7 @@ function AIInsightsCard({ skills = [], profile = {} }) {
         {/* Refresh Button */}
         <button
           onClick={fetchSuggestions}
-          className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+          className="rounded-full bg-gray-100 p-2 text-gray-700 transition hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
           aria-label="Refresh Insights"
         >
           <RefreshCw size={18} />
@@ -65,7 +65,7 @@ function AIInsightsCard({ skills = [], profile = {} }) {
           {suggestions.map((suggestion, index) => (
             <li
               key={index}
-              className="bg-purple-50 dark:bg-gray-800 p-3 rounded-xl text-sm sm:text-base text-gray-700 dark:text-gray-200"
+              className="rounded-xl bg-purple-50 p-3 text-sm text-gray-700 dark:bg-gray-800 dark:text-gray-200 sm:text-base"
             >
               💡 {suggestion}
             </li>
@@ -75,7 +75,7 @@ function AIInsightsCard({ skills = [], profile = {} }) {
 
       {/* Empty State */}
       {!loading && suggestions.length === 0 && (
-        <p className="text-gray-500 dark:text-gray-400 text-sm">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
           No insights available yet. Add your skills, role, and profile details to unlock personalized recommendations.
         </p>
       )}

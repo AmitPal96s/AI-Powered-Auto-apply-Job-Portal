@@ -9,27 +9,26 @@ function AIChatWidget() {
 
   return (
     <>
-      {/* Floating Genie Button */}
       <button
         onClick={toggleChat}
-        className="fixed bottom-6 right-6 z-50 rounded-full shadow-lg hover:scale-105 transition duration-300 focus:outline-none"
+        className="fixed bottom-4 right-4 z-50 rounded-full shadow-lg transition duration-300 hover:scale-105 focus:outline-none sm:bottom-6 sm:right-6"
         aria-label="Toggle AI Chat"
       >
         {isChatOpen ? (
-          <div className="bg-white dark:bg-gray-800 p-3 rounded-full shadow-md">
-            <X size={24} className="text-gray-700 dark:text-white" />
+          <div className="rounded-full bg-white p-3 shadow-md dark:bg-gray-800">
+            <X size={22} className="text-gray-700 dark:text-white" />
           </div>
         ) : (
           <img
             src={genieIcon}
             alt="JobGenie Assistant"
-className="w-16 h-16 object-contain rounded-full shadow-lg ring-4 ring-purple-200 dark:ring-purple-800"          />
+            className="h-14 w-14 rounded-full object-contain shadow-lg ring-4 ring-purple-200 dark:ring-purple-800 sm:h-16 sm:w-16"
+          />
         )}
       </button>
 
-      {/* Chat Window */}
       {isChatOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-[90vw] sm:w-96 h-[70vh] bg-white dark:bg-gray-900 rounded-3xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div className="fixed bottom-20 left-4 right-4 z-50 h-[min(72vh,34rem)] overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-2xl dark:border-gray-700 dark:bg-gray-900 sm:bottom-24 sm:left-auto sm:right-6 sm:h-[70vh] sm:w-96">
           <AIChatbot />
         </div>
       )}
