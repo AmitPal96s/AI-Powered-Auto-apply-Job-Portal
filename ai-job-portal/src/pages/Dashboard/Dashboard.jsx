@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import AIInsightsCard from "../../components/ui/ai/AIInsightsCard";
 import {
   autoApplyToJobs,
@@ -8,6 +9,8 @@ import {
 import toast from "react-hot-toast";
 import { Sparkles } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+
+void motion;
 
 function Dashboard() {
   const { user } = useAuth();
@@ -74,8 +77,18 @@ function Dashboard() {
   }, [loadApplications]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-pink-50 px-4 py-6 sm:px-6">
-      <div className="mb-6 rounded-3xl bg-white p-4 shadow-lg sm:mb-8 sm:p-6">
+    <motion.div
+      className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-pink-50 px-4 py-6 sm:px-6"
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
+    >
+      <motion.div
+        className="mb-6 rounded-3xl bg-white p-4 shadow-lg sm:mb-8 sm:p-6"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, delay: 0.05 }}
+      >
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h1 className="text-3xl font-bold leading-tight bg-gradient-to-r from-blue-600 to-pink-500 bg-clip-text text-transparent sm:text-4xl">
@@ -107,41 +120,66 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="mt-5 sm:mt-6">
+        <motion.div
+          className="mt-5 sm:mt-6"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.1 }}
+        >
           <AIInsightsCard skills={userSkills} profile={userProfile} />
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 sm:gap-6">
+      <motion.div
+        className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 sm:gap-6"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: {},
+          visible: { transition: { staggerChildren: 0.08 } },
+        }}
+      >
         <StatCard title="Jobs Applied" value={stats.applied} />
         <StatCard title="Strong Matches" value={stats.matches} />
         <StatCard title="Interviews" value={stats.interviews} />
         <StatCard title="Auto Apply" value={stats.autoApply ? "ON" : "OFF"} />
-      </div>
+      </motion.div>
 
-      <div className="mb-8 rounded-3xl bg-white p-4 shadow-lg sm:p-6">
+      <motion.div
+        className="mb-8 rounded-3xl bg-white p-4 shadow-lg sm:p-6"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.35 }}
+      >
         <h2 className="mb-4 text-xl font-bold sm:text-2xl">Quick Actions</h2>
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
-          <Link
-            to="/profile"
-            className="inline-flex w-full items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-white transition hover:opacity-90 sm:w-auto"
-          >
-            Update Profile
-          </Link>
-          <Link
-            to="/jobs"
-            className="inline-flex w-full items-center justify-center rounded-xl bg-pink-500 px-5 py-3 text-white transition hover:opacity-90 sm:w-auto"
-          >
-            View Recommended Jobs
-          </Link>
-          <button
-            onClick={handleAutoApply}
-            disabled={loading}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-purple-600 px-5 py-3 text-white transition hover:opacity-90 disabled:opacity-50 sm:w-auto"
-          >
-            <Sparkles size={18} />
-            {loading ? "Applying..." : "Auto Apply"}
-          </button>
+          <motion.div whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <Link
+              to="/profile"
+              className="inline-flex w-full items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-white transition hover:opacity-90 sm:w-auto"
+            >
+              Update Profile
+            </Link>
+          </motion.div>
+          <motion.div whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <Link
+              to="/jobs"
+              className="inline-flex w-full items-center justify-center rounded-xl bg-pink-500 px-5 py-3 text-white transition hover:opacity-90 sm:w-auto"
+            >
+              View Recommended Jobs
+            </Link>
+          </motion.div>
+          <motion.div whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <button
+              onClick={handleAutoApply}
+              disabled={loading}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-purple-600 px-5 py-3 text-white transition hover:opacity-90 disabled:opacity-50 sm:w-auto"
+            >
+              <Sparkles size={18} />
+              {loading ? "Applying..." : "Auto Apply"}
+            </button>
+          </motion.div>
         </div>
         {!user?.preferences?.autoApplyEnabled && (
           <p className="mt-4 text-sm text-amber-700">
@@ -153,9 +191,15 @@ function Dashboard() {
             Scanned <strong>{lastAutoApplySummary.totalJobsScanned}</strong> jobs and created <strong>{lastAutoApplySummary.totalApplied}</strong> new applications.
           </div>
         )}
-      </div>
+      </motion.div>
 
-      <div className="rounded-3xl bg-white p-4 shadow-lg sm:p-6">
+      <motion.div
+        className="rounded-3xl bg-white p-4 shadow-lg sm:p-6"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.35 }}
+      >
         <h2 className="mb-4 text-xl font-bold sm:text-2xl">Recent Applications</h2>
         {pageLoading ? (
           <p className="text-gray-500">Loading applications...</p>
@@ -174,17 +218,25 @@ function Dashboard() {
             ))}
           </ul>
         )}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
 function StatCard({ title, value }) {
   return (
-    <div className="rounded-3xl bg-white p-4 text-center shadow-lg sm:p-6">
+    <motion.div
+      className="rounded-3xl bg-white p-4 text-center shadow-lg sm:p-6"
+      variants={{
+        hidden: { opacity: 0, y: 16 },
+        visible: { opacity: 1, y: 0 },
+      }}
+      whileHover={{ y: -4, scale: 1.02 }}
+      transition={{ duration: 0.2 }}
+    >
       <h3 className="text-sm text-gray-500 sm:text-base">{title}</h3>
       <p className="mt-2 text-2xl font-bold sm:text-3xl">{value}</p>
-    </div>
+    </motion.div>
   );
 }
 

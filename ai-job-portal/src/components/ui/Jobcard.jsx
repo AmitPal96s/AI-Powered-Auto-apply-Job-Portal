@@ -1,9 +1,16 @@
 import React from "react";
+import { motion } from "framer-motion";
 import AISkillGapCard from "../ui/ai/AISkillGapCard";
+
+void motion;
 
 const JobCard = ({ children, className = "", job, userSkills = [] }) => {
   return (
-    <div className={`rounded-2xl bg-white p-4 shadow-lg transition duration-300 hover:shadow-xl sm:p-6 ${className}`}>
+    <motion.div
+      className={`rounded-2xl bg-white p-4 shadow-lg transition duration-300 hover:shadow-xl sm:p-6 ${className}`}
+      whileHover={{ y: -4, scale: 1.01 }}
+      transition={{ duration: 0.2 }}
+    >
       {children}
       {job && (
         <>
@@ -15,7 +22,7 @@ const JobCard = ({ children, className = "", job, userSkills = [] }) => {
           />
         </>
       )}
-    </div>
+    </motion.div>
   );
 };
 

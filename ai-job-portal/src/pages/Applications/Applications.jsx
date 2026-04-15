@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { getUserApplications } from "../../services/ai/applicationService";
+
+void motion;
 
 function Applications() {
   const [applications, setApplications] = useState([]);
@@ -22,35 +25,62 @@ function Applications() {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+      <motion.div
+        className="mx-auto max-w-6xl px-4 py-6 sm:px-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
         <p className="text-gray-500">Loading applications...</p>
-      </div>
+      </motion.div>
     );
   }
 
   if (applications.length === 0) {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+      <motion.div
+        className="mx-auto max-w-6xl px-4 py-6 sm:px-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
         <p className="text-gray-500">No applications yet.</p>
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+    <motion.div
+      className="mx-auto max-w-6xl px-4 py-6 sm:px-6"
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35 }}
+    >
       <h1 className="mb-6 text-2xl font-bold sm:text-3xl">My Applications</h1>
 
-      <div className="space-y-4">
+      <motion.div
+        className="space-y-4"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: {},
+          visible: { transition: { staggerChildren: 0.07 } },
+        }}
+      >
         {applications.map((app) => (
-          <div
+          <motion.div
             key={app._id}
             className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:p-5"
+            variants={{
+              hidden: { opacity: 0, y: 12 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            whileHover={{ y: -4, scale: 1.01 }}
+            transition={{ duration: 0.2 }}
           >
             <h3 className="text-base font-semibold sm:text-lg">
               {app.jobTitle || "Job Title"}
             </h3>
             <p className="text-gray-600">
-              {app.company} • {app.location}
+              {app.company} - {app.location}
             </p>
 
             <p className="text-sm text-gray-500">
@@ -79,10 +109,10 @@ function Applications() {
                 Open job application
               </a>
             )}
-          </div>
+          </motion.div>
         ))}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 

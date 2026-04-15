@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { getRecommendedJobs } from "../../../services/jobService";
+
+void motion;
 
 function AIRecommendedJobs() {
   const [jobs, setJobs] = useState([]);
@@ -22,7 +25,12 @@ function AIRecommendedJobs() {
   }, []);
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-md sm:p-6">
+    <motion.div
+      className="rounded-2xl bg-white p-4 shadow-md sm:p-6"
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+    >
       <h2 className="mb-4 text-xl font-semibold sm:text-2xl">
         AI Recommended Jobs
       </h2>
@@ -45,9 +53,11 @@ function AIRecommendedJobs() {
 
       <div className="space-y-3 sm:space-y-4">
         {jobs.map((job) => (
-          <div
+          <motion.div
             key={job._id}
             className="rounded-2xl border border-gray-100 p-4 shadow-sm"
+            whileHover={{ y: -4, scale: 1.01 }}
+            transition={{ duration: 0.2 }}
           >
             <h3 className="text-base font-semibold sm:text-lg">
               {job.title}
@@ -67,10 +77,10 @@ function AIRecommendedJobs() {
             >
               View Job
             </a>
-          </div>
+          </motion.div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 

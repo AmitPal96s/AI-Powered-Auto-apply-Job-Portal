@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 import {
   getUserProfile,
   updateUserProfile,
 } from "../../services/auth/authService";
+
+void motion;
 
 const initialProfileState = {
   name: "",
@@ -172,18 +175,41 @@ function Profile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-pink-50 px-4 py-6 sm:px-6">
-        <div className="mx-auto max-w-5xl rounded-3xl bg-white p-6 shadow-xl sm:p-8">
+      <motion.div
+        className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-pink-50 px-4 py-6 sm:px-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <motion.div
+          className="mx-auto max-w-5xl rounded-3xl bg-white p-6 shadow-xl sm:p-8"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35 }}
+        >
           <p className="text-gray-500">Loading profile...</p>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-pink-50 px-4 py-6 sm:px-6">
-      <div className="mx-auto max-w-5xl overflow-hidden rounded-3xl bg-white shadow-xl">
-        <div className="h-24 bg-gradient-to-r from-blue-600 to-pink-500 sm:h-32" />
+    <motion.div
+      className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-pink-50 px-4 py-6 sm:px-6"
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35 }}
+    >
+      <motion.div
+        className="mx-auto max-w-5xl overflow-hidden rounded-3xl bg-white shadow-xl"
+        initial={{ scale: 0.99, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        <motion.div
+          className="h-24 bg-gradient-to-r from-blue-600 to-pink-500 sm:h-32"
+          animate={{ opacity: [0.92, 1, 0.92] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        />
 
         <div className="p-4 sm:p-6 lg:p-8">
           <div className="mb-6">
@@ -195,9 +221,17 @@ function Profile() {
             </p>
           </div>
 
-          <div className="mb-8 rounded-2xl border border-gray-200 bg-gray-50 p-4 sm:rounded-3xl sm:p-6">
+          <motion.div
+            className="mb-8 rounded-2xl border border-gray-200 bg-gray-50 p-4 sm:rounded-3xl sm:p-6"
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+          >
             <div className="flex flex-col gap-4 sm:gap-6 md:flex-row md:items-center">
-              <div className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-gradient-to-br from-blue-100 to-pink-100 shadow-lg sm:h-28 sm:w-28">
+              <motion.div
+                className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-gradient-to-br from-blue-100 to-pink-100 shadow-lg sm:h-28 sm:w-28"
+                whileHover={{ scale: 1.03 }}
+              >
                 {profile.avatarUrl ? (
                   <img
                     src={profile.avatarUrl}
@@ -216,7 +250,7 @@ function Profile() {
                       : "U"}
                   </span>
                 )}
-              </div>
+              </motion.div>
 
               <div className="flex-1">
                 <h2 className="text-lg font-semibold text-gray-900 sm:text-xl">
@@ -227,7 +261,11 @@ function Profile() {
                 </p>
 
                 <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <label className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:opacity-90">
+                  <motion.label
+                    className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:opacity-90"
+                    whileHover={{ y: -2, scale: 1.01 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
                     Upload Photo
                     <input
                       ref={avatarInputRef}
@@ -236,15 +274,17 @@ function Profile() {
                       onChange={handleAvatarUpload}
                       className="hidden"
                     />
-                  </label>
+                  </motion.label>
 
-                  <button
+                  <motion.button
                     type="button"
                     onClick={handleRemoveAvatar}
                     className="inline-flex items-center justify-center rounded-xl border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-white"
+                    whileHover={{ y: -2, scale: 1.01 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     Remove Photo
-                  </button>
+                  </motion.button>
                 </div>
 
                 <p className="mt-3 text-xs text-gray-500">
@@ -252,7 +292,7 @@ function Profile() {
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           <div className="mb-6 grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
             <InputField label="Full Name" name="name" value={profile.name} onChange={handleChange} />
@@ -314,16 +354,18 @@ function Profile() {
             <InputField label="Resume File Name" name="resumeName" value={profile.resumeName} onChange={handleChange} placeholder="resume.pdf" />
           </div>
 
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-pink-500 px-8 py-3 text-white transition hover:opacity-90 disabled:opacity-50 sm:w-auto"
-          >
-            {saving ? "Saving..." : "Save Profile"}
-          </button>
+          <motion.div whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.98 }}>
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-pink-500 px-8 py-3 text-white transition hover:opacity-90 disabled:opacity-50 sm:w-auto"
+            >
+              {saving ? "Saving..." : "Save Profile"}
+            </button>
+          </motion.div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 

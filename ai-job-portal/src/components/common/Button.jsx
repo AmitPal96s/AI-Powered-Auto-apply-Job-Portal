@@ -1,4 +1,7 @@
 import React from "react";
+import { motion } from "framer-motion";
+
+void motion;
 
 const Button = ({
   children,
@@ -21,14 +24,16 @@ const Button = ({
   };
 
   return (
-    <button
+    <motion.button
       type={type}
       onClick={onClick}
       className={`${baseStyles} ${variants[variant]} ${className}`}
+      whileHover={{ y: -2, scale: 1.01 }}
+      whileTap={{ scale: 0.98 }}
       {...props}
     >
       {children}
-    </button>
+    </motion.button>
   );
 };
 
